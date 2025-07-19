@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestros Momentos Especiales ❤️</title>
-
-    <style>
+    <title>Nuestra Historia ❤️</title> <style>
         /* --- ESTILOS CSS INCRUSTADOS --- */
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;700&display=swap');
 
@@ -24,7 +22,7 @@
             padding: 0;
             background: linear-gradient(to bottom right, #fce4ec, #e0f2f7); /* Degradado suave y romántico */
             font-family: var(--font-body);
-            overflow: hidden; /* Oculta barras de scroll */
+            /* overflow: hidden;  QUITADO para que los corazones puedan salir de la pantalla por arriba */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -48,7 +46,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Se mantiene aquí para que las imágenes de fondo no salgan */
             z-index: 0; /* Detrás de todo */
         }
 
@@ -64,7 +62,7 @@
             pointer-events: none; /* No interactuables */
         }
 
-        /* Posiciones iniciales aleatorias para las imágenes de fondo */
+        /* Posiciones iniciales aleatorias para las imágenes de fondo - Ajustadas para 17 imágenes únicas */
         .animated-background .bg-image:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
         .animated-background .bg-image:nth-child(2) { top: 30%; left: 20%; animation-delay: 3s; }
         .animated-background .bg-image:nth-child(3) { top: 50%; left: 80%; animation-delay: 6s; }
@@ -82,9 +80,6 @@
         .animated-background .bg-image:nth-child(15) { top: 90%; left: 65%; animation-delay: 2s; }
         .animated-background .bg-image:nth-child(16) { top: 45%; left: 45%; animation-delay: 5s; }
         .animated-background .bg-image:nth-child(17) { top: 55%; left: 95%; animation-delay: 8s; }
-        .animated-background .bg-image:nth-child(18) { top: 20%; left: 40%; animation-delay: 11s; }
-        .animated-background .bg-image:nth-child(19) { top: 70%; left: 60%; animation-delay: 14s; }
-        .animated-background .bg-image:nth-child(20) { top: 40%; left: 5%; animation-delay: 17s; }
 
 
         @keyframes floatAndRotate {
@@ -95,42 +90,35 @@
             100% { transform: translate(0, 0) rotate(360deg) scale(1); opacity: 0.6; }
         }
 
-        /* --- Pantalla inicial de la carta --- */
-        .intro-card-wrapper {
+        /* --- Pantalla inicial con Snoopy (similar a intro-card-wrapper) --- */
+        .intro-snoopy-wrapper {
             position: relative;
-            width: 80%; /* Más pequeño */
-            max-width: 300px; /* Más pequeño */
-            height: 200px; /* Más pequeño */
-            background-color: white;
-            border: 2px solid var(--card-border);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-            z-index: 100; /* Siempre encima */
+            transition: opacity 0.5s ease-out; /* Solo para el fade out */
+            z-index: 100; /* Siempre encima del fondo */
+            background-color: white; /* Añade un fondo para que no se vea el fondo animado a través de Snoopy */
+            border: 2px solid #f1c40f;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .intro-card-wrapper:hover {
-            transform: scale(1.03);
-        }
-
-        .intro-card-wrapper.open {
-            transform: rotateX(90deg) scale(0.8); /* Simula que se abre o se voltea */
+        .intro-snoopy-wrapper.hidden {
             opacity: 0;
-            pointer-events: none; /* Deshabilita clics */
+            pointer-events: none; /* Deshabilita clics cuando está oculto */
         }
 
-        .intro-text {
-            font-family: var(--font-fancy);
-            font-size: 2em; /* Ligeramente más pequeño para encajar mejor */
-            color: var(--secondary-color);
-            text-align: center;
-            margin-bottom: 15px; /* Menos margen inferior */
-            animation: pulsate 1.5s infinite;
+        .mensaje-inicial {
+            font-family: var(--font-fancy); /* Usa la fuente de fantasía */
+            font-size: 2em; /* Hazlo más grande */
+            color: var(--secondary-color); /* Usa el color secundario */
+            margin-bottom: 15px;
+            animation: pulsate 1.5s infinite; /* Cambiado a 'pulsate' */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         @keyframes pulsate {
@@ -139,31 +127,33 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .intro-icon {
-            font-size: 2.5em; /* Ligeramente más pequeño */
-            animation: bounce 2s infinite;
+        .snoopy-img {
+            width: 200px; /* Ajustado para mejor proporción */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.4s ease;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
+        .snoopy-img:hover {
+            transform: scale(1.05);
         }
 
-        /* --- Contenido principal de la página (inicialmente oculto) --- */
-        .main-content {
+        /* --- Contenido principal de la carta (inicialmente oculto) --- */
+        .carta-contenido {
             display: none; /* Oculto por defecto */
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 251, 230, 0.98); /* Fondo de la carta */
+            border: 2px solid var(--card-border); /* Borde de la carta */
             border-radius: 20px;
             padding: 25px;
-            max-width: 700px; /* Más compacto que el anterior */
+            max-width: 600px; /* Tamaño de la carta */
             width: 90%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             animation: fadeInFromTop 1s ease forwards; /* Animación de entrada */
-            z-index: 50; /* Por encima del fondo */
-            position: relative;
+            z-index: 50; /* Por encima del fondo, pero debajo de la envoltura inicial */
+            position: relative; /* Importante para que z-index funcione correctamente */
             overflow-y: auto; /* Scroll si el contenido es largo */
-            max-height: 90vh;
+            max-height: 90vh; /* Para pantallas más pequeñas */
+            text-align: left; /* Alineación del texto dentro de la carta */
         }
 
         @keyframes fadeInFromTop {
@@ -171,39 +161,34 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .main-content .header-content {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .carta-contenido h2 {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        .main-content .header-content h1 {
-            font-size: 2.2em;
-            color: white;
-            margin-bottom: 10px;
+        .carta-contenido .snoopy-carta-img { /* Nueva clase para la imagen dentro de la carta */
+            width: 150px; /* Ajusta el tamaño de la imagen dentro de la carta */
+            display: block; /* Para centrarla con margin auto */
+            margin: 0 auto 20px auto; /* Centra la imagen y da margen inferior */
+            border-radius: 10px; /* Bordes suaves */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .main-content .header-content p {
-            font-size: 1em;
-            font-weight: 300;
-        }
-
-        .main-content .main-message {
+        .mensaje {
             font-size: 1.1em;
             line-height: 1.6;
-            text-align: justify;
-            padding: 0 10px;
-            margin-bottom: 30px;
             color: #555;
+            text-align: justify;
         }
-        .main-content .main-message strong {
+
+        .mensaje strong {
             color: var(--primary-color);
             font-weight: 700;
         }
-        .main-content .main-message .signature {
+
+        .mensaje .firma { /* Nueva clase para la firma */
             font-family: var(--font-fancy);
             font-size: 1.5em;
             text-align: right;
@@ -211,128 +196,82 @@
             color: var(--secondary-color);
         }
 
-        .main-content .gallery-section {
-            margin-top: 30px;
-            padding: 0 10px;
+        /* Estilos para los corazones flotantes */
+        .corazon {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color); /* Color rosa de los corazones */
+            transform: rotate(-45deg);
+            animation: flotar 10s linear infinite;
+            z-index: 10; /* Los corazones deben estar por encima del fondo animado */
         }
 
-        .main-content .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Miniaturas de fotos */
-            gap: 12px;
-            padding: 10px;
-            border: 1px dashed var(--card-border);
-            border-radius: 10px;
-            background-color: #fcf4f7; /* Rosa muy claro */
-            max-height: 350px; /* Altura máxima para el scroll */
-            overflow-y: auto;
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+        .corazon::before,
+        .corazon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
         }
 
-        /* Estilo de la barra de desplazamiento para navegadores Webkit */
-        .gallery-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        .gallery-grid::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.03);
-            border-radius: 10px;
-        }
-        .gallery-grid::-webkit-scrollbar-thumb {
-            background-color: var(--primary-color);
-            border-radius: 10px;
-            border: 2px solid transparent;
-            background-clip: content-box;
+        .corazon::before {
+            top: -10px;
+            left: 0;
         }
 
-        .main-content .gallery-item {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
+        .corazon::after {
+            left: 10px;
+            top: 0;
         }
 
-        .main-content .gallery-item:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .main-content .gallery-item img {
-            width: 100%;
-            height: 120px; /* Tamaño de imagen de galería */
-            object-fit: cover;
-            display: block;
-        }
-
-        .main-content .gallery-item .caption {
-            padding: 8px;
-            font-size: 0.85em;
-            text-align: center;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
-
-        .main-content footer {
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-            background-color: var(--secondary-color);
-            color: white;
-            font-size: 0.8em;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        @keyframes flotar {
+            0% {
+                transform: translateY(100vh) rotate(-45deg); /* Empieza desde abajo de la pantalla */
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; /* Aparece rápidamente */
+            }
+            100% {
+                transform: translateY(-100px) rotate(-45deg); /* Sube hasta un poco más allá de la parte superior */
+                opacity: 0; /* Desaparece al salir */
+            }
         }
 
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .intro-card-wrapper {
-                max-width: 300px; /* Ajuste en responsive también */
-                height: 180px; /* Ajuste en responsive también */
+            .intro-snoopy-wrapper {
+                max-width: 90%;
             }
-            .intro-text {
-                font-size: 1.6em; /* Ajuste en responsive también */
+            .snoopy-img {
+                width: 180px;
             }
-            .intro-icon {
-                font-size: 2.2em; /* Ajuste en responsive también */
+            .mensaje-inicial {
+                font-size: 1.5em;
             }
-            .main-content {
+            .carta-contenido {
                 padding: 15px;
-                max-width: 95%;
             }
-            .main-content .header-content h1 {
-                font-size: 1.8em;
+            .mensaje {
+                font-size: 0.95em;
             }
-            .main-content .header-content p {
-                font-size: 0.9em;
-            }
-            .main-content .main-message {
-                font-size: 1em;
-            }
-            .main-content .gallery-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                max-height: 280px;
-            }
-            .main-content .gallery-item img {
-                height: 100px;
+            .carta-contenido .snoopy-carta-img {
+                width: 100px;
             }
         }
 
         @media (max-width: 480px) {
-            .intro-card-wrapper {
-                height: 160px; /* Ajuste en responsive también */
+            .snoopy-img {
+                width: 150px;
             }
-            .intro-text {
-                font-size: 1.3em; /* Ajuste en responsive también */
+            .mensaje-inicial {
+                font-size: 1.2em;
             }
-            .intro-icon {
-                font-size: 2em; /* Ajuste en responsive también */
-            }
-            .main-content .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            .main-content .gallery-item img {
-                height: 160px;
+            .carta-contenido h2 {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -340,13 +279,13 @@
 <body>
 
     <div class="animated-background">
-        <img src="img/2.jpeg" alt="Background Image 1" class="bg-image">
-        <img src="img/5.jpeg" alt="Background Image 2" class="bg-image">
-        <img src="img/4.jpeg" alt="Background Image 3" class="bg-image">
-        <img src="img/6.jpeg" alt="Background Image 4" class="bg-image">
-        <img src="img/1 (1).jpeg" alt="Background Image 5" class="bg-image">
-        <img src="img/7.jpeg" alt="Background Image 6" class="bg-image">
-        <img src="img/3.jpeg" alt="Background Image 7" class="bg-image">
+        <img src="img/1 (1).jpeg" alt="Background Image 1" class="bg-image">
+        <img src="img/2.jpeg" alt="Background Image 2" class="bg-image">
+        <img src="img/3.jpeg" alt="Background Image 3" class="bg-image">
+        <img src="img/4.jpeg" alt="Background Image 4" class="bg-image">
+        <img src="img/5.jpeg" alt="Background Image 5" class="bg-image">
+        <img src="img/6.jpeg" alt="Background Image 6" class="bg-image">
+        <img src="img/7.jpeg" alt="Background Image 7" class="bg-image">
         <img src="img/8.jpeg" alt="Background Image 8" class="bg-image">
         <img src="img/9.jpeg" alt="Background Image 9" class="bg-image">
         <img src="img/10.jpeg" alt="Background Image 10" class="bg-image">
@@ -357,125 +296,59 @@
         <img src="img/16.jpeg" alt="Background Image 15" class="bg-image">
         <img src="img/17.jpeg" alt="Background Image 16" class="bg-image">
         <img src="img/18.jpeg" alt="Background Image 17" class="bg-image">
-        <img src="img/2.jpeg" alt="Background Image 18" class="bg-image">
-        <img src="img/4.jpeg" alt="Background Image 19" class="bg-image">
-        <img src="img/6.jpeg" alt="Background Image 20" class="bg-image">
-    </div>
+        </div>
 
-    <div id="intro-card" class="intro-card-wrapper">
-        <div class="intro-text">¡Tenemos algo que contarte!</div>
-        <span class="intro-icon">💌</span>
-    </div>
+    <div class="container">
+        <div class="intro-snoopy-wrapper" id="introSnoopyWrapper">
+            <div class="mensaje-inicial">Toca a Snoopy 💖💌</div>
+            <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png"
+                 alt="Snoopy con carta" class="snoopy-img" id="abrirCarta">
+        </div>
 
-    <div id="main-content" class="main-content">
-        <header class="header-content">
-            <h1>Nuestra Historia</h1>
-            <p>Un pequeño viaje por los momentos que han marcado nuestra vida juntos.</p>
-        </header>
-
-        <section class="main-message">
-            <p>Desde que nuestros caminos se cruzaron, hemos comenzado a escribir una historia única y especial. Cada día a tu lado es un nuevo renglón lleno de emociones, aprendizajes y momentos inolvidables. Recordamos con cariño el inicio de todo, las primeras miradas, las primeras palabras y cómo una conexión inexplicable comenzó a florecer entre nosotros.</p>
-            <p>Nuestra historia está llena de risas compartidas, de abrazos que reconfortan, de miradas que lo dicen todo y de un apoyo incondicional que nos impulsa a ser mejores cada día. Hemos construido un lazo fuerte y hermoso, basado en el amor, el respeto y la complicidad.</p>
-            <p>Cada experiencia vivida, cada pequeño detalle, cada sueño compartido, forma parte ya de esta increíble historia que estamos construyendo juntos. Y estoy emocionado/a por todos los capítulos que aún nos quedan por escribir.</p>
-            <p><strong>Gracias por ser el protagonista de mi historia.</strong></p>
-            <p class="signature">- Con todo mi amor, [Tu Nombre]</p>
-        </section>
-
-        <section class="gallery-section">
-            <h2>Nuestra Galería de Recuerdos</h2>
-            <div class="gallery-grid" id="gallery-grid">
-                <div class="gallery-item">
-                    <img src="img/3.jpeg" alt="Cumpleaños 17">
-                    <div class="caption">¡Feliz Cumpleaños número 17! 🎉</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/2.jpeg" alt="Momento divertido juntos">
-                    <div class="caption">Caras graciosas juntos</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/5.jpeg" alt="Paseo por el centro comercial">
-                    <div class="caption">Explorando juntos 🛍️</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/4.jpeg" alt="Noche de pelicula">
-                    <div class="caption">Noche de películas y abrazos 🍿</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/6.jpeg" alt="Comida juntos">
-                    <div class="caption">Comida con mi persona favorita ❤️</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/1 (1).jpeg" alt="Abrazando un peluche">
-                    <div class="caption">¡Mi amor con su peluchito!</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/7.jpeg" alt="Charlando por teléfono">
-                    <div class="caption">Nuestras largas charlas 📞</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/8.jpeg" alt="Momento relajado">
-                    <div class="caption">Momento de relajación</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/9.jpeg" alt="Luces navideñas">
-                    <div class="caption">Noche de luces</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/10.jpeg" alt="Selfie casual">
-                    <div class="caption">Selfie casual</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/11.jpeg" alt="Cercanía y afecto">
-                    <div class="caption">Siempre cerca</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/12.jpeg" alt="Haciendo la V de victoria">
-                    <div class="caption">Haciendo la V</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/13.jpeg" alt="Sacando la lengua">
-                    <div class="caption">Divirtiéndonos</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/15.jpeg" alt="Labios dorados">
-                    <div class="caption">Labios dorados</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/16.jpeg" alt="Mirada graciosa">
-                    <div class="caption">¡Qué susto!</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/17.jpeg" alt="Foto en la oscuridad">
-                    <div class="caption">Momento nocturno</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="img/18.jpeg" alt="Caminando juntos">
-                    <div class="caption">Paseo al aire libre</div>
-                </div>
-                </div>
-        </section>
-
-        <footer>
-            <p>&copy; 2025 Hecho con amor para [Nombre de tu Novia/o].</p>
-        </footer>
+        <div class="carta-contenido" id="contenidoCarta">
+            <h2>¡Nuestra Historia de Amor!</h2> <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png" alt="Snoopy enamorado" class="snoopy-carta-img">
+            <div class="mensaje">
+                Hoy cumplimos 11 meses caminando juntos como novios, pero la verdad es que nuestras historias llevan mucho más tiempo entrelazadas. Desde pequeños, la vida ya nos estaba escribiendo en la misma página, como si supiera que un día tú y yo íbamos a mirarnos con otros ojos… con los de quien ama, cuida y elige cada día.<br><br>
+                Estos 11 meses han sido un regalo que no cambio por nada: con risas, abrazos largos, miradas cómplices y momentos que ya viven en mi corazón. Gracias por ser mi alegría constante, mi refugio y mi mejor amiga desde siempre.<br><br>
+                A veces pienso que el amor verdadero no se encuentra… se reconoce. Y yo te reconocí desde niño, como quien siempre supo dónde pertenecía.<br><br>
+                <strong>Feliz 11 meses, amor.</strong> Y que vengan mil meses más, porque contigo todo tiene sentido.<br><br>
+                Con todo mi amor,<br>
+                <span class="firma">[Tu Nombre]</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        /* --- CÓDIGO JAVASCRIPT INCRUSTADO --- */
-        document.addEventListener('DOMContentLoaded', () => {
-            const introCard = document.getElementById('intro-card');
-            const mainContent = document.getElementById('main-content');
+        const abrirCartaBtn = document.getElementById('abrirCarta');
+        const contenidoCarta = document.getElementById('contenidoCarta');
+        const introSnoopyWrapper = document.getElementById('introSnoopyWrapper');
+        let corazonesActivos = false;
 
-            introCard.addEventListener('click', () => {
-                introCard.classList.add('open'); // Activa la animación de apertura de la carta
+        abrirCartaBtn.addEventListener('click', () => {
+            // Oculta la envoltura de Snoopy con una transición
+            introSnoopyWrapper.classList.add('hidden');
 
-                // Después de que la carta se "abra" (transición), la ocultamos completamente y mostramos el contenido principal
-                introCard.addEventListener('transitionend', () => {
-                    introCard.style.display = 'none'; // Oculta la carta completamente
+            // Después de que la transición termine, oculta Snoopy y muestra la carta
+            introSnoopyWrapper.addEventListener('transitionend', () => {
+                introSnoopyWrapper.style.display = 'none'; // Oculta completamente el contenedor inicial
+                contenidoCarta.style.display = 'block'; // Muestra el contenido de la carta
+            }, { once: true }); // Asegura que el evento solo se dispare una vez
 
-                    mainContent.style.display = 'block'; // Muestra el contenido principal
-                }, { once: true }); // Para que el evento solo se dispare una vez
-            });
+            // Activa la generación de corazones
+            if (!corazonesActivos) {
+                setInterval(() => {
+                    const corazon = document.createElement("div");
+                    corazon.classList.add("corazon");
+                    // Posiciona el corazón en la parte inferior de la pantalla al inicio
+                    corazon.style.left = Math.random() * 100 + "vw";
+                    // Duración de la animación un poco más larga y variada
+                    corazon.style.animationDuration = Math.random() * 8 + 7 + "s"; // entre 7 y 15 segundos
+                    document.body.appendChild(corazon);
+                    // Elimina el corazón después de que termine su animación para no acumular elementos
+                    setTimeout(() => corazon.remove(), parseFloat(corazon.style.animationDuration) * 1000);
+                }, 300); // Genera un corazón cada 300ms
+                corazonesActivos = true;
+            }
         });
     </script>
 
