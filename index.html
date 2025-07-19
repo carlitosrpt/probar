@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Momentos Especiales ❤️</title>
+
+    <style>
+        /* --- ESTILOS CSS INCRUSTADOS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary-color: #e91e63; /* Rosa Fuerte */
+            --secondary-color: #880e4f; /* Rosa Oscuro */
+            --text-color: #333;
+            --light-bg: #ffebee; /* Rosa Muy Claro */
+            --card-border: #f8bbd0; /* Rosa Claro para bordes */
+            --font-fancy: 'Pacifico', cursive;
+            --font-body: 'Quicksand', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #fce4ec, #e0f2f7); /* Degradado suave y romántico */
+            font-family: var(--font-body);
+            overflow: hidden; /* Oculta barras de scroll */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            color: var(--text-color);
+        }
+
+        h1, h2 {
+            font-family: var(--font-fancy);
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* --- Fondo de imágenes animadas (80x80px) --- */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0; /* Detrás de todo */
+        }
+
+        .animated-background .bg-image {
+            position: absolute;
+            width: 80px;  /* Resolución fija */
+            height: 80px; /* Resolución fija */
+            object-fit: cover; /* Asegura que la imagen llene el espacio */
+            border-radius: 50%; /* Hacerlas redondas */
+            filter: grayscale(100%) blur(1px); /* Blanco y negro y ligeramente borrosas */
+            opacity: 0.6; /* Más visibles y sin tanta transparencia */
+            animation: floatAndRotate 20s linear infinite; /* Animación */
+            pointer-events: none; /* No interactuables */
+        }
+
+        /* Posiciones iniciales aleatorias para las imágenes de fondo */
+        .animated-background .bg-image:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .animated-background .bg-image:nth-child(2) { top: 30%; left: 20%; animation-delay: 3s; }
+        .animated-background .bg-image:nth-child(3) { top: 50%; left: 80%; animation-delay: 6s; }
+        .animated-background .bg-image:nth-child(4) { top: 70%; left: 10%; animation-delay: 9s; }
+        .animated-background .bg-image:nth-child(5) { top: 20%; left: 70%; animation-delay: 12s; }
+        .animated-background .bg-image:nth-child(6) { top: 80%; left: 50%; animation-delay: 15s; }
+        .animated-background .bg-image:nth-child(7) { top: 5%; left: 90%; animation-delay: 18s; }
+        .animated-background .bg-image:nth-child(8) { top: 60%; left: 15%; animation-delay: 1s; }
+        .animated-background .bg-image:nth-child(9) { top: 15%; left: 55%; animation-delay: 4s; }
+        .animated-background .bg-image:nth-child(10) { top: 85%; left: 30%; animation-delay: 7s; }
+        .animated-background .bg-image:nth-child(11) { top: 35%; left: 95%; animation-delay: 10s; }
+        .animated-background .bg-image:nth-child(12) { top: 5%; left: 35%; animation-delay: 13s; }
+        .animated-background .bg-image:nth-child(13) { top: 75%; left: 75%; animation-delay: 16s; }
+        .animated-background .bg-image:nth-child(14) { top: 25%; left: 5%; animation-delay: 19s; }
+        .animated-background .bg-image:nth-child(15) { top: 90%; left: 65%; animation-delay: 2s; }
+        .animated-background .bg-image:nth-child(16) { top: 45%; left: 45%; animation-delay: 5s; }
+        .animated-background .bg-image:nth-child(17) { top: 55%; left: 95%; animation-delay: 8s; }
+        .animated-background .bg-image:nth-child(18) { top: 20%; left: 40%; animation-delay: 11s; }
+        .animated-background .bg-image:nth-child(19) { top: 70%; left: 60%; animation-delay: 14s; }
+        .animated-background .bg-image:nth-child(20) { top: 40%; left: 5%; animation-delay: 17s; }
+
+
+        @keyframes floatAndRotate {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.6; }
+            25% { transform: translate(15vw, 15vh) rotate(90deg) scale(1.1); opacity: 0.7; }
+            50% { transform: translate(-10vw, 30vh) rotate(180deg) scale(1); opacity: 0.6; }
+            75% { transform: translate(20vw, 40vh) rotate(270deg) scale(0.9); opacity: 0.5; }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); opacity: 0.6; }
+        }
+
+        /* --- Pantalla inicial de la carta --- */
+        .intro-card-wrapper {
+            position: relative;
+            width: 80%; /* Más pequeño */
+            max-width: 300px; /* Más pequeño */
+            height: 200px; /* Más pequeño */
+            background-color: white;
+            border: 2px solid var(--card-border);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            z-index: 100; /* Siempre encima */
+        }
+
+        .intro-card-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .intro-card-wrapper.open {
+            transform: rotateX(90deg) scale(0.8); /* Simula que se abre o se voltea */
+            opacity: 0;
+            pointer-events: none; /* Deshabilita clics */
+        }
+
+        .intro-text {
+            font-family: var(--font-fancy);
+            font-size: 2em; /* Ligeramente más pequeño para encajar mejor */
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 15px; /* Menos margen inferior */
+            animation: pulsate 1.5s infinite;
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .intro-icon {
+            font-size: 2.5em; /* Ligeramente más pequeño */
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        /* --- Contenido principal de la página (inicialmente oculto) --- */
+        .main-content {
+            display: none; /* Oculto por defecto */
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 700px; /* Más compacto que el anterior */
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInFromTop 1s ease forwards; /* Animación de entrada */
+            z-index: 50; /* Por encima del fondo */
+            position: relative;
+            overflow-y: auto; /* Scroll si el contenido es largo */
+            max-height: 90vh;
+        }
+
+        @keyframes fadeInFromTop {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-content .header-content {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .main-content .header-content h1 {
+            font-size: 2.2em;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .main-content .header-content p {
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+        .main-content .main-message {
+            font-size: 1.1em;
+            line-height: 1.6;
+            text-align: justify;
+            padding: 0 10px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        .main-content .main-message strong {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .main-content .main-message .signature {
+            font-family: var(--font-fancy);
+            font-size: 1.5em;
+            text-align: right;
+            margin-top: 20px;
+            color: var(--secondary-color);
+        }
+
+        .main-content .gallery-section {
+            margin-top: 30px;
+            padding: 0 10px;
+        }
+
+        .main-content .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Miniaturas de fotos */
+            gap: 12px;
+            padding: 10px;
+            border: 1px dashed var(--card-border);
+            border-radius: 10px;
+            background-color: #fcf4f7; /* Rosa muy claro */
+            max-height: 350px; /* Altura máxima para el scroll */
+            overflow-y: auto;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
+        }
+
+        /* Estilo de la barra de desplazamiento para navegadores Webkit */
+        .gallery-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .gallery-grid::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 10px;
+        }
+        .gallery-grid::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        .main-content .gallery-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .main-content .gallery-item:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .main-content .gallery-item img {
+            width: 100%;
+            height: 120px; /* Tamaño de imagen de galería */
+            object-fit: cover;
+            display: block;
+        }
+
+        .main-content .gallery-item .caption {
+            padding: 8px;
+            font-size: 0.85em;
+            text-align: center;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .main-content footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.8em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .intro-card-wrapper {
+                max-width: 300px; /* Ajuste en responsive también */
+                height: 180px; /* Ajuste en responsive también */
+            }
+            .intro-text {
+                font-size: 1.6em; /* Ajuste en responsive también */
+            }
+            .intro-icon {
+                font-size: 2.2em; /* Ajuste en responsive también */
+            }
+            .main-content {
+                padding: 15px;
+                max-width: 95%;
+            }
+            .main-content .header-content h1 {
+                font-size: 1.8em;
+            }
+            .main-content .header-content p {
+                font-size: 0.9em;
+            }
+            .main-content .main-message {
+                font-size: 1em;
+            }
+            .main-content .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                max-height: 280px;
+            }
+            .main-content .gallery-item img {
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .intro-card-wrapper {
+                height: 160px; /* Ajuste en responsive también */
+            }
+            .intro-text {
+                font-size: 1.3em; /* Ajuste en responsive también */
+            }
+            .intro-icon {
+                font-size: 2em; /* Ajuste en responsive también */
+            }
+            .main-content .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-content .gallery-item img {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-background">
+        <img src="img/2.jpeg" alt="Background Image 1" class="bg-image">
+        <img src="img/5.jpeg" alt="Background Image 2" class="bg-image">
+        <img src="img/4.jpeg" alt="Background Image 3" class="bg-image">
+        <img src="img/6.jpeg" alt="Background Image 4" class="bg-image">
+        <img src="img/1 (1).jpeg" alt="Background Image 5" class="bg-image">
+        <img src="img/7.jpeg" alt="Background Image 6" class="bg-image">
+        <img src="img/3.jpeg" alt="Background Image 7" class="bg-image">
+        <img src="img/8.jpeg" alt="Background Image 8" class="bg-image">
+        <img src="img/9.jpeg" alt="Background Image 9" class="bg-image">
+        <img src="img/10.jpeg" alt="Background Image 10" class="bg-image">
+        <img src="img/11.jpeg" alt="Background Image 11" class="bg-image">
+        <img src="img/12.jpeg" alt="Background Image 12" class="bg-image">
+        <img src="img/13.jpeg" alt="Background Image 13" class="bg-image">
+        <img src="img/15.jpeg" alt="Background Image 14" class="bg-image">
+        <img src="img/16.jpeg" alt="Background Image 15" class="bg-image">
+        <img src="img/17.jpeg" alt="Background Image 16" class="bg-image">
+        <img src="img/18.jpeg" alt="Background Image 17" class="bg-image">
+        <img src="img/2.jpeg" alt="Background Image 18" class="bg-image">
+        <img src="img/4.jpeg" alt="Background Image 19" class="bg-image">
+        <img src="img/6.jpeg" alt="Background Image 20" class="bg-image">
+    </div>
+
+    <div id="intro-card" class="intro-card-wrapper">
+        <div class="intro-text">¡Tenemos algo que contarte!</div>
+        <span class="intro-icon">💌</span>
+    </div>
+
+    <div id="main-content" class="main-content">
+        <header class="header-content">
+            <h1>Nuestra Historia</h1>
+            <p>Un pequeño viaje por los momentos que han marcado nuestra vida juntos.</p>
+        </header>
+
+        <section class="main-message">
+            <p>Desde que nuestros caminos se cruzaron, hemos comenzado a escribir una historia única y especial. Cada día a tu lado es un nuevo renglón lleno de emociones, aprendizajes y momentos inolvidables. Recordamos con cariño el inicio de todo, las primeras miradas, las primeras palabras y cómo una conexión inexplicable comenzó a florecer entre nosotros.</p>
+            <p>Nuestra historia está llena de risas compartidas, de abrazos que reconfortan, de miradas que lo dicen todo y de un apoyo incondicional que nos impulsa a ser mejores cada día. Hemos construido un lazo fuerte y hermoso, basado en el amor, el respeto y la complicidad.</p>
+            <p>Cada experiencia vivida, cada pequeño detalle, cada sueño compartido, forma parte ya de esta increíble historia que estamos construyendo juntos. Y estoy emocionado/a por todos los capítulos que aún nos quedan por escribir.</p>
+            <p><strong>Gracias por ser el protagonista de mi historia.</strong></p>
+            <p class="signature">- Con todo mi amor, [Tu Nombre]</p>
+        </section>
+
+        <section class="gallery-section">
+            <h2>Nuestra Galería de Recuerdos</h2>
+            <div class="gallery-grid" id="gallery-grid">
+                <div class="gallery-item">
+                    <img src="img/3.jpeg" alt="Cumpleaños 17">
+                    <div class="caption">¡Feliz Cumpleaños número 17! 🎉</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/2.jpeg" alt="Momento divertido juntos">
+                    <div class="caption">Caras graciosas juntos</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/5.jpeg" alt="Paseo por el centro comercial">
+                    <div class="caption">Explorando juntos 🛍️</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/4.jpeg" alt="Noche de pelicula">
+                    <div class="caption">Noche de películas y abrazos 🍿</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/6.jpeg" alt="Comida juntos">
+                    <div class="caption">Comida con mi persona favorita ❤️</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/1 (1).jpeg" alt="Abrazando un peluche">
+                    <div class="caption">¡Mi amor con su peluchito!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/7.jpeg" alt="Charlando por teléfono">
+                    <div class="caption">Nuestras largas charlas 📞</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/8.jpeg" alt="Momento relajado">
+                    <div class="caption">Momento de relajación</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/9.jpeg" alt="Luces navideñas">
+                    <div class="caption">Noche de luces</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/10.jpeg" alt="Selfie casual">
+                    <div class="caption">Selfie casual</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/11.jpeg" alt="Cercanía y afecto">
+                    <div class="caption">Siempre cerca</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/12.jpeg" alt="Haciendo la V de victoria">
+                    <div class="caption">Haciendo la V</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/13.jpeg" alt="Sacando la lengua">
+                    <div class="caption">Divirtiéndonos</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/15.jpeg" alt="Labios dorados">
+                    <div class="caption">Labios dorados</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/16.jpeg" alt="Mirada graciosa">
+                    <div class="caption">¡Qué susto!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/17.jpeg" alt="Foto en la oscuridad">
+                    <div class="caption">Momento nocturno</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/18.jpeg" alt="Caminando juntos">
+                    <div class="caption">Paseo al aire libre</div>
+                </div>
+                </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Hecho con amor para [Nombre de tu Novia/o].</p>
+        </footer>
+    </div>
+
+    <script>
+        /* --- CÓDIGO JAVASCRIPT INCRUSTADO --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            const introCard = document.getElementById('intro-card');
+            const mainContent = document.getElementById('main-content');
+
+            introCard.addEventListener('click', () => {
+                introCard.classList.add('open'); // Activa la animación de apertura de la carta
+
+                // Después de que la carta se "abra" (transición), la ocultamos completamente y mostramos el contenido principal
+                introCard.addEventListener('transitionend', () => {
+                    introCard.style.display = 'none'; // Oculta la carta completamente
+
+                    mainContent.style.display = 'block'; // Muestra el contenido principal
+                }, { once: true }); // Para que el evento solo se dispare una vez
+            });
+        });
+    </script>
+
+</body>
+</html>
